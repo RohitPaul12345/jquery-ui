@@ -33,7 +33,7 @@
 "use strict";
 
 return $.effects.define( "bounce", function( options, done ) {
-	var upAnim, downAnim, refValue,
+	let upAnim, downAnim, refValue,
 		element = $( this ),
 
 		// Defaults:
