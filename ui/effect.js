@@ -35,7 +35,7 @@
 } )( function( $ ) {
 "use strict";
 
-var dataSpace = "ui-effects-",
+let dataSpace = "ui-effects-",
 	dataSpaceStyle = "ui-effects-style",
 	dataSpaceAnimated = "ui-effects-animated";
 
@@ -48,7 +48,7 @@ $.effects = {
 /******************************************************************************/
 ( function() {
 
-var classAnimationActions = [ "add", "remove", "toggle" ],
+let classAnimationActions = [ "add", "remove", "toggle" ],
 	shorthandStyles = {
 		border: 1,
 		borderBottom: 1,
@@ -80,7 +80,7 @@ function camelCase( string ) {
 }
 
 function getElementStyles( elem ) {
-	var key, len,
+	let key, len,
 		style = elem.ownerDocument.defaultView ?
 			elem.ownerDocument.defaultView.getComputedStyle( elem, null ) :
 			elem.currentStyle,
@@ -108,7 +108,7 @@ function getElementStyles( elem ) {
 }
 
 function styleDifference( oldStyle, newStyle ) {
-	var diff = {},
+	let diff = {},
 		name, value;
 
 	for ( name in newStyle ) {
@@ -135,17 +135,17 @@ if ( !$.fn.addBack ) {
 }
 
 $.effects.animateClass = function( value, duration, easing, callback ) {
-	var o = $.speed( duration, easing, callback );
+	let o = $.speed( duration, easing, callback );
 
 	return this.queue( function() {
-		var animated = $( this ),
+		let animated = $( this ),
 			baseClass = animated.attr( "class" ) || "",
 			applyClassChange,
 			allAnimations = o.children ? animated.find( "*" ).addBack() : animated;
 
 		// Map the animated objects to store the original styles.
 		allAnimations = allAnimations.map( function() {
-			var el = $( this );
+			let el = $( this );
 			return {
 				el: el,
 				start: getElementStyles( this )
@@ -174,7 +174,7 @@ $.effects.animateClass = function( value, duration, easing, callback ) {
 
 		// Map all animated objects again - this time collecting a promise
 		allAnimations = allAnimations.map( function() {
-			var styleInfo = this,
+			let styleInfo = this,
 				dfd = $.Deferred(),
 				opts = $.extend( {}, o, {
 					queue: false,
@@ -196,7 +196,7 @@ $.effects.animateClass = function( value, duration, easing, callback ) {
 			// For each animated element,
 			// clear all css properties that were animated
 			$.each( arguments, function() {
-				var el = this.el;
+				let el = this.el;
 				$.each( this.diff, function( key ) {
 					el.css( key, "" );
 				} );
@@ -278,7 +278,7 @@ if ( $.uiBackCompat !== false ) {
 
 		// Saves a set of properties in a data storage
 		save: function( element, set ) {
-			var i = 0, length = set.length;
+			let i = 0, length = set.length;
 			for ( ; i < length; i++ ) {
 				if ( set[ i ] !== null ) {
 					element.data( dataSpace + set[ i ], element[ 0 ].style[ set[ i ] ] );
@@ -288,7 +288,7 @@ if ( $.uiBackCompat !== false ) {
 
 		// Restores a set of previously saved properties from a data storage
 		restore: function( element, set ) {
-			var val, i = 0, length = set.length;
+			let val, i = 0, length = set.length;
 			for ( ; i < length; i++ ) {
 				if ( set[ i ] !== null ) {
 					val = element.data( dataSpace + set[ i ] );
@@ -313,7 +313,7 @@ if ( $.uiBackCompat !== false ) {
 			}
 
 			// Wrap the element
-			var props = {
+			let props = {
 					width: element.outerWidth( true ),
 					height: element.outerHeight( true ),
 					"float": element.css( "float" )
@@ -385,7 +385,7 @@ if ( $.uiBackCompat !== false ) {
 		},
 
 		removeWrapper: function( element ) {
-			var active = document.activeElement;
+			let active = document.activeElement;
 
 			if ( element.parent().is( ".ui-effects-wrapper" ) ) {
 				element.parent().replaceWith( element );
@@ -426,7 +426,7 @@ $.extend( $.effects, {
 			};
 		}
 
-		var x = direction !== "horizontal" ? ( ( percent || 100 ) / 100 ) : 1,
+		let x = direction !== "horizontal" ? ( ( percent || 100 ) / 100 ) : 1,
 			y = direction !== "vertical" ? ( ( percent || 100 ) / 100 ) : 1;
 
 		return {
@@ -449,7 +449,7 @@ $.extend( $.effects, {
 
 	// Injects recently queued functions to be first in line (after "inprogress")
 	unshift: function( element, queueLength, count ) {
-		var queue = element.queue();
+		let queue = element.queue();
 
 		if ( queueLength > 1 ) {
 			queue.splice.apply( queue,
@@ -468,7 +468,7 @@ $.extend( $.effects, {
 	},
 
 	mode: function( element, mode ) {
-		var hidden = element.is( ":hidden" );
+		let hidden = element.is( ":hidden" );
 
 		if ( mode === "toggle" ) {
 			mode = hidden ? "show" : "hide";
@@ -481,7 +481,7 @@ $.extend( $.effects, {
 
 	// Translates a [top,left] array into a baseline value
 	getBaseline: function( origin, original ) {
-		var y, x;
+		let y, x;
 
 		switch ( origin[ 0 ] ) {
 		case "top":
@@ -519,7 +519,7 @@ $.extend( $.effects, {
 
 	// Creates a placeholder element so that the original element can be made absolute
 	createPlaceholder: function( element ) {
-		var placeholder,
+		let placeholder,
 			cssPosition = element.css( "position" ),
 			position = element.position();
 
@@ -572,7 +572,7 @@ $.extend( $.effects, {
 	},
 
 	removePlaceholder: function( element ) {
-		var dataKey = dataSpace + "placeholder",
+		let dataKey = dataSpace + "placeholder",
 				placeholder = element.data( dataKey );
 
 		if ( placeholder ) {
@@ -681,7 +681,7 @@ function standardAnimationOption( option ) {
 
 $.fn.extend( {
 	effect: function( /* effect, options, speed, callback */ ) {
-		var args = _normalizeArguments.apply( this, arguments ),
+		let args = _normalizeArguments.apply( this, arguments ),
 			effectMethod = $.effects.effect[ args.effect ],
 			defaultMode = effectMethod.mode,
 			queue = args.queue,
@@ -690,7 +690,7 @@ $.fn.extend( {
 			mode = args.mode,
 			modes = [],
 			prefilter = function( next ) {
-				var el = $( this ),
+				let el = $( this ),
 					normalizedMode = $.effects.mode( el, mode ) || defaultMode;
 
 				// Sentinel for duck-punching the :animated pseudo-selector
@@ -731,7 +731,7 @@ $.fn.extend( {
 		}
 
 		function run( next ) {
-			var elem = $( this );
+			let elem = $( this );
 
 			function cleanup() {
 				elem.removeData( dataSpaceAnimated );
@@ -805,7 +805,7 @@ $.fn.extend( {
 			if ( standardAnimationOption( option ) ) {
 				return orig.apply( this, arguments );
 			} else {
-				var args = _normalizeArguments.apply( this, arguments );
+				let args = _normalizeArguments.apply( this, arguments );
 				args.mode = "hide";
 				return this.effect.call( this, args );
 			}
@@ -817,7 +817,7 @@ $.fn.extend( {
 			if ( standardAnimationOption( option ) || typeof option === "boolean" ) {
 				return orig.apply( this, arguments );
 			} else {
-				var args = _normalizeArguments.apply( this, arguments );
+				let args = _normalizeArguments.apply( this, arguments );
 				args.mode = "toggle";
 				return this.effect.call( this, args );
 			}
@@ -825,7 +825,7 @@ $.fn.extend( {
 	} )( $.fn.toggle ),
 
 	cssUnit: function( key ) {
-		var style = this.css( key ),
+		let style = this.css( key ),
 			val = [];
 
 		$.each( [ "em", "px", "%", "pt" ], function( i, unit ) {
@@ -845,7 +845,7 @@ $.fn.extend( {
 	},
 
 	transfer: function( options, done ) {
-		var element = $( this ),
+		let element = $( this ),
 			target = $( options.to ),
 			targetFixed = target.css( "position" ) === "fixed",
 			body = $( "body" ),
@@ -881,7 +881,7 @@ $.fn.extend( {
 } );
 
 function parseClip( str, element ) {
-		var outerWidth = element.outerWidth(),
+		let outerWidth = element.outerWidth(),
 			outerHeight = element.outerHeight(),
 			clipRegex = /^rect\((-?\d*\.?\d*px|-?\d+%|auto),?\s*(-?\d*\.?\d*px|-?\d+%|auto),?\s*(-?\d*\.?\d*px|-?\d+%|auto),?\s*(-?\d*\.?\d*px|-?\d+%|auto)\)$/,
 			values = clipRegex.exec( str ) || [ "", 0, outerWidth, outerHeight, 0 ];
@@ -921,7 +921,7 @@ $.fx.step.clip = function( fx ) {
 
 // Based on easing equations from Robert Penner (http://www.robertpenner.com/easing)
 
-var baseEasings = {};
+let baseEasings = {};
 
 $.each( [ "Quad", "Cubic", "Quart", "Quint", "Expo" ], function( i, name ) {
 	baseEasings[ name ] = function( p ) {
@@ -944,7 +944,7 @@ $.extend( baseEasings, {
 		return p * p * ( 3 * p - 2 );
 	},
 	Bounce: function( p ) {
-		var pow2,
+		let pow2,
 			bounce = 4;
 
 		while ( p < ( ( pow2 = Math.pow( 2, --bounce ) ) - 1 ) / 11 ) {}
